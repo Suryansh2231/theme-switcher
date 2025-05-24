@@ -1,31 +1,27 @@
-import {useState,useEffect } from "react";
-import "./App.css";
-import ThemeBtn from "./components/ThemeBtn";
-import Card from "./components/Card";
-import { ThemeProvider } from "./contexts/Theme";
+import React from 'react';
+import { ThemeProvider, useTheme } from '../src/contexts/Theme.jsx';
+import ThemeBtn from './components/Theme_Button.jsx';
+import Card from './components/Card.jsx';
+// import BoxComponent from './components/BoxComponent.jsx'
 
+const App = () => {
+  const { themeMode } = useTheme();
 
-function App() {
-
-  const [themeMode, setthemeMode] = useState("light");
-
-  const lightTheme = () => {
-    setthemeMode("light")
-  }
-  const darkTheme = () => {
-    setthemeMode("dark")
+  const darKThemeObj = {
+    backgroundColor: '#000',
+    color: '#fff',
   }
 
-  useEffect(() => {
-     const page = document.querySelector('html').classList;
-     page.remove('light' , 'dark')
-     page.add(themeMode)
-  }, [themeMode])
-  
+  const lightThemeObj = {
+    backgroundColor: '#fff',
+    color: '#000',
+  }
+
   return (
-    <ThemeProvider value ={{lightTheme , darkTheme , themeMode}}>
-      <h1 className="bg-green-700 p-4 text-3xl"> context api part two</h1>
-
+    <div style={themeMode === 'light' ? lightThemeObj : darKThemeObj}>
+      <h1 className={`${themeMode === "light" ? "bg-green-900" : "bg-blue-700"} text-3xl p-4 text-white`}>
+        Context Api Part Two
+      </h1>
       <div className="flex flex-wrap min-h-screen items-center">
         <div className="w-full">
           <div className="w-full max-w-sm mx-auto flex justify-end mb-4">
@@ -34,11 +30,12 @@ function App() {
 
           <div className="w-full max-w-sm mx-auto">
             <Card />
+            {/* <BoxComponent/> */}
           </div>
         </div>
       </div>
-    </ThemeProvider>
+    </div>
   );
-}
+};
 
 export default App;
